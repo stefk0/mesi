@@ -1,0 +1,389 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass[a4paper]{article}
+\usepackage[bulgarian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsthm, amsmath, mathrsfs,alltt}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage{datetime}
+%this package allows for hyperlinks within the pdf document
+\usepackage[colorlinks=true, linkcolor=blue,pdfstartview=FitV,
+citecolor=green, urlcolor=blue]{hyperref}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}{Лема}
+\newtheorem{corollary}{Следствие}
+\newtheorem{proposition}{Твърдение}
+\newtheorem{example}{Пример}
+\newtheorem{definition}{Определение}
+\newtheorem{question}{Въпрос}
+\newtheorem{problem}{Задача}
+\newtheorem{remark}{Забележка}
+
+\newenvironment{hint}{\noindent{\bf Упътване.}\hspace*{1em}}{\qed\par\vspace*{1em}}
+
+\let\oldmarginpar\marginpar
+\renewcommand\marginpar[1]{\leavevmode\oldmarginpar{\raggedright\scriptsize #1}}
+
+\usepackage{mysymbols}
+
+
+% \author{Стефан Вътев\thanks{Draft compiled at \currenttime\ on \today}}
+\title{М.Е.С.И.}
+% \institute{
+% Софийски Университет, Факултет по математика и информатика,\\ 
+% бул. Джеймс Баучер 5, 1164 София, България\\ 
+% \email{stefanv@fmi.uni-sofia.bg}
+% }
+\begin{document}
+\maketitle
+
+\section{Увод}
+
+\begin{itemize}
+\item
+  Машини на Тюринг
+\item
+  Разрешими и полуразрешими езици
+\item
+  Сложностни класове $\texttt{PSPACE}$, $\texttt{NPSPACE}$, $\texttt{P}$, $\texttt{NP}$ и други.
+\item
+  Сводимости между проблеми: сводимост на Карп $\leq_P$ и ефективна сводимост $\leq_m$.
+\end{itemize}
+
+\section{Двупосочни автомати или защо писането е важно}
+\begin{definition}
+Двапосочен автомат е машина на Тюринг $M=\langle \Sigma,\Gamma,Q,s,\Delta,F,B\rangle$, за която
+$\$,\#\in \Gamma\setminus\Sigma$ и  всеки преход е от вида $t=\langle (p,a),(q,a,d)\rangle$, тоест буквите на лентата не се променят.
+\end{definition}
+\begin{definition}
+Език на двупосочен автомат $M$ е:
+\begin{equation*}
+L_{2way}(M)=\{\alpha \in \Sigma^*\,|\,\exists f\in F( \langle \varepsilon,s,\#\alpha\$\rangle \Rightarrow_M^* \langle \#\alpha\$,f,\varepsilon\rangle\}.
+\end{equation*}
+\end{definition}
+\begin{theorem}
+Класът от езиците, разпознавани от двупосочни автомати е точно класът от регулярни езици.
+\end{theorem}
+
+\section{Критерий за разрешимост}
+
+\marginpar{\cite{hopcroft}}
+Нека $\Ss$ е множество от полуразрешими езици над фиксирана азбука $\Sigma$.
+Например, 
+\[\Ss = \{L \subseteq \Sigma^\star \mid L\text{ е регулярен език}\}.\]
+Ще казваме, че $\Ss$ е свойство на полуразрешимите езици.
+$\Ss$ е {\bf тривиално свойство}, ако $\Ss = \emptyset$ или $\Ss$ съдържа точно всички полуразрешими езици.
+Нека разгледаме изброимото множество от машини на Тюринг, които разпознават езиците от $\Ss$.
+Ще представим това множество като език от кодовете на тези машини на Тюринг, т.е.
+\[\texttt{Ind}(\Ss) = \{\code{\M} \mid \text{$\M$ е машина на Тюринг и } \L(\M) \in \Ss\}.\]
+
+\begin{theorem}[Райс]
+  \index{Райс}
+  За всяко нетривиално свойство $\Ss$ на полуразрешимите езици, $\texttt{Ind}(\Ss)$ е неразрешимо.
+\end{theorem}
+
+
+\section{Критерий за полуразрешимост}
+
+\marginpar{\cite{hopcroft}}
+\begin{lemma}
+  Нека $\Ss$ е свойство на полуразрешимите езици.
+  Ако съществува безкраен език $L_0 \in \Ss$, който няма крайно подмножество в $\Ss$,
+  то $\texttt{Ind}(\Ss)$ не е полуразрешим език.  
+\end{lemma}
+
+\begin{lemma}
+  Нека $L_1$ е език в $\Ss$ и нека $L_2$ е полуразрешим език, като $L_1 \subset L_2$ и $L_2 \not\in\Ss$.
+  Тогава $\texttt{Ind}(\Ss)$ не е полуразрешим език.
+\end{lemma}
+
+\begin{theorem}[Райс-Шапиро]
+  Нека $\texttt{Ind}(\Ss)$ е полуразрешим език. Тогава е изпълнено, че:
+  \[L \in \texttt{Ind}(\Ss) \iff (\forall L_0)[L_0\text{ е краен и }L_0 \subseteq L \implies L_0 \in \Ss].\]
+\end{theorem}
+
+\section{Проблем на Пост за съответствието}
+\marginpar{\cite{hopcroft}}
+\begin{lemma}
+  Съществува алгоритъм, който свежда MPCP към PCP.
+\end{lemma}
+
+\begin{theorem}[Пост]
+  Проблемът за съответствието на Пост е неразрешим при азбука $\Sigma$ с поне два символа.
+\end{theorem}
+
+\begin{proposition}
+  Езикът
+  \[L = \{\code{G} \mid G \text{ е еднозначна безконтекстна граматика}\}\]
+  е неразрешим.
+\end{proposition}
+
+\begin{proposition}
+  Езикът
+  \[L = \{\code{G_1}\sharp\code{G_2} \mid \mathcal{L}(G_1) \cap \mathcal{L}(G_2) \neq \emptyset\}\]
+  е неразрешим.
+\end{proposition}
+
+
+\section{Неразрешими езици}
+
+\begin{proposition}
+  Езикът
+  \[L = \{\code{G_1}\sharp\code{G_2} \mid \mathcal{L}(G_1) \cap \mathcal{L}(G_2) = \emptyset\}\]
+  не е полуразрешим.
+\end{proposition}
+
+\begin{proposition}
+  Езикът
+  \[L = \{\code{G} \mid \L(G) = \Sigma^\star\}\]
+  не е полуразрешим.
+\end{proposition}
+
+\begin{corollary}
+  Езикът
+  \[L = \{\code{G_1}\sharp\code{G_2} \mid \mathcal{L}(G_1) = \mathcal{L}(G_2)\}\]
+  не е полуразрешим.
+\end{corollary}
+
+\begin{theorem}[Грейбах]
+  \marginpar{\cite{hopcroft}}
+  Нека $\mathcal{C}$ е клас от езици, за който съществува ефективно кодиране $\code{L}$ на езиците в $\mathcal{C}$ и който е:
+  \begin{itemize}
+  \item 
+    ефективно затворен относно обединение;
+  \item
+    ефективно затворен относно конкатенация с регулярен език;
+  \item
+    "$= \Sigma^\star$" е неразрешим за достатъчно голяма $\Sigma$.
+  \end{itemize}
+  Нека $P$ е нетривиално свойство на $\mathcal{C}$, което е изпълнено за всеки регулярен език и ако $L \in P$,
+  то $L/_a \in P$, където
+  \[L/_a = \{\omega \mid \omega a \in L\}.\]
+  Тогава езикът $\{\code{L} \mid P(L)\ \&\ L \in \mathcal{C}\}$ е неразрешим.
+\end{theorem}
+
+\begin{corollary}
+  Езикът
+  \[L = \{\code{G} \mid \L(G) \text{ е регулярен}\}\]
+  не е полуразрешим.
+\end{corollary}
+
+\section{Контекстносвободни езици}
+\begin{theorem}
+Класът на контекстносвободните езици е затворен относно:
+\begin{enumerate}
+\item сечение с регулярни езици.
+\item образи на хомоморфизми.
+\item образи на регулярни релации.
+\end{enumerate}
+\end{theorem}
+\begin{definition}
+  \marginpar{На англ. Dyck. \cite{hopcroft} стр. 142}
+  Език на Дик над езика $B_n=\{(_i,)_i\,|\, 1\le i\le n\}$ е множеството от всички
+  думи, които представляват правилно разположени скоби.
+\end{definition}
+\begin{theorem}
+Класът от контекстносвободни езици е точно класът от езици от вида:
+\begin{equation*}
+h(D_n \cap R),
+\end{equation*}
+където $D_n$ е език на Дик, $R$ е регулярен език, а $h:B_n^*\rightarrow\Sigma^*$ е хомоморфизъм.
+\end{theorem}
+\begin{definition}
+За азбука $\Sigma=\{a_1,a_2,\dots,a_n\}$ и дума $w\in \Sigma^*$ с $|w|_i$ бележим броя букви $a_i$ в $w$.
+Дефинираме $\|w\|=(|w|_1,|w_2,\dots,|w|_n)\in \mathbb{N}^n$.
+\end{definition}
+\begin{definition}
+За вектор $u\in \mathbb{N}^n$ и множество от вектори $V\subseteq \mathbb{N}^n$ с $u+ V$ и $V^*$ бележим множествата от вектори:
+\begin{eqnarray*}
+u+V = \{u+v\,|\, v\in V\} \text{ и } V^*=\{\sum_{i=1}^k d_iv_i\,|\, k\in \mathbb{N}, d_i\in \mathbb{N}\text{ и } v_i\in V\}.
+\end{eqnarray*}
+\end{definition}
+\begin{theorem}[на Парих] За всеки контекстносвободени език $L\subseteq \{a_1,a_2,\dots,a_n\}^*$ има
+естествено число $k$, вектори $u_1,u_2,\dots,u_k\in \mathbb{N}^n$ и крайни множества $V_1,V_2,\dots,V_k\subseteq \mathbb{N}^n$,
+за които:
+\begin{equation*}
+\{\|w\|\,|\, w\in L\} = \bigcup_{i=1}^k (u_i + V_i^*).
+\end{equation*}
+\end{theorem}
+Пучително е да се разгледа частния случай на еднобуквена азбука. Тогава, тъй като $w=a_1^{|w|_1}$ и $\|w\|=(|w|_1)$,
+може да отъждествим $w$ с $\|w\|$. Освен това в този случай може да предполагаме, че $|V_i|=1$ за всяко $V_i$ от теоремата
+на Парих (може да вземем най-малкото общо кратно в по-големите множества и да добавим повече вектори $u$). Тогава
+$V_i=\{v_i\}$ и изразите $u_i+V_i^*=\{u_i+dv_i \,|\, d\in \mathbb{N}\}$ представляват аритметични прогресии. 
+
+Тоест, ако се абстрахираме от реда на буквите, контекстносвободните езици представляват крайни обединения на аритметични
+прогресии.
+
+
+\section{$\texttt{PSPACE}$ и $\texttt{NPSPACE}$ проблеми}
+
+\begin{proposition}
+  Езикът
+  \[L = \{\code{\A} \mid \A \text{ е НКА и }\L(\A) = \Sigma^\star\}\]
+  е $\texttt{PSPACE}$-пълен.
+\end{proposition}
+
+\begin{theorem}[Савич 1970]
+  \[\texttt{NPSPACE}(f(n)) \subseteq \texttt{PSPACE}(f^2(n)).\]
+\end{theorem}
+
+\begin{corollary}
+  $\texttt{NPSPACE} = \texttt{PSPACE}$.
+\end{corollary}
+
+\begin{problem}
+  Докажете, че езикът
+  \[L = \{ \code{\A_1} \sharp \code{\A_2} \mid \A_1,\A_2\text{ са НКА и }\L(\A_1) = \L(\A_2)\}\]
+  е $\texttt{PSPACE}$-пълен.
+\end{problem}
+
+\begin{theorem}
+Проблемът ($\texttt{INT}$):
+\begin{alltt}
+Вход: \(n\in\mathbb{N}, A\sb{i}=\langle\Sigma,Q\sb{i},s\sb{i},\delta\sb{i},F\sb{i}\rangle\) - КДА
+Въпрос: \(\bigcap\sb{i}\sp{n}L(A\sb{i})=\Sigma\sp{*}\)?
+\end{alltt}
+е $\texttt{PSPACE}$-пълен.
+\end{theorem}
+
+\begin{theorem}
+Проблемът ($\texttt{MIN(NFA}\rightarrow\texttt{NDA)}$):
+\begin{alltt}
+Вход: \(k\in\mathbb{N}, A=\langle\Sigma,Q,s,\delta,F\rangle\) - КДА
+Въпрос: има ли НДА с език \(L(A)\) и не повече от \(k\) състояния?
+\end{alltt}
+е $\texttt{PSPACE}$-пълен.
+\end{theorem}
+
+\begin{theorem}[Immerman-Szelepcs\'enyi]
+  \[\texttt{NPSPACE}(S(n)) = \texttt{co-NPSPACE}(S(n)).\]
+\end{theorem}
+
+\begin{corollary}
+  Допълнението на всеки контекстнозависим език е контекстно зависим.
+\end{corollary}
+
+
+\section{$\texttt{NP}$ проблеми}
+
+\begin{theorem}
+  Ако $L \in \texttt{NP}$, то $L \in \texttt{EXP}$.
+\end{theorem}
+
+\begin{theorem}
+  \marginpar{Дори не е полуразрешим}
+  Домино проблемът е неразрешим.
+\end{theorem}
+\begin{hint}
+  Свеждаме ефективно езика
+  \[\{\code{\M} \mid \M\text{ работи безкрайно дълго при вход }\varepsilon\}\]
+  към домино проблема.
+\end{hint}
+
+\begin{theorem}
+  Ограниченият домино проблем е $\texttt{NP}$-пълен
+\end{theorem}
+
+\begin{theorem}[Кук]
+  $\texttt{SAT}$ проблемът е $\texttt{NP}$-пълен.
+\end{theorem}
+\begin{hint}
+  Ограниченият домино проблем се свежда полиномиално към $\texttt{SAT}$.
+\end{hint}
+
+\begin{problem}
+  Докажете директно, че $\texttt{SAT}$ е $\texttt{NP}$-труден проблем
+  като кодирате историята на едно изчисление на недетерминистична машина на Тюринг
+  с формула в конюнктивна нормална форма.
+\end{problem}
+
+\begin{problem}
+  Докажете, че $\texttt{2-SAT}$ проблемът е $\texttt{PTIME}$.
+\end{problem}
+
+\begin{theorem}
+  $\texttt{3-SAT}$ проблемът е $\texttt{NP}$-пълен.
+\end{theorem}
+\begin{hint}
+  $\texttt{SAT}$ се свежда полиномиално към $\texttt{3-SAT}$.
+\end{hint}
+
+За един неориентиран граф $G = (V,E)$,
+казваме, че множеството $C \subseteq V$ {\bf покрива върховете} на $G$, ако
+\[(\forall (u,v) \in E)[u \in C\ \lor\ v \in C].\]
+$\texttt{Vertex Cover}$ е проблемът да се определи дали по даден неориентиран граф $G$ и $k \in \Nat$
+съществува покритие $C$ на върховете на $G$, за което $|C| = k$.
+
+\begin{theorem}
+  \marginpar{\cite{hopcroft} стр. 331}
+  $\texttt{Vertex Cover}$ проблемът е $\texttt{NP}$-пълен.
+\end{theorem}
+\begin{hint}
+  $\texttt{3-SAT}$ се свежда полиномиално към $\texttt{Vertex Cover}$.
+\end{hint}
+
+\begin{problem}
+  Докажете, че $\texttt{Exact Cover}$ е $\texttt{NP}$-пълен проблем.
+\end{problem}
+
+\begin{problem}
+  Докажете, че $\texttt{Hamilton Cycle}$ е $\texttt{NP}$-пълен проблем.
+\end{problem}
+\begin{hint}
+  $\texttt{3-SAT}$ се свежда полиномиално към $\texttt{Hamilton Cycle}$.
+\end{hint}
+
+
+
+\subsection*{$\texttt{NP}$-пълни проблеми в теория на езиците}
+
+\begin{definition}
+Казваме, че недетреминиран краен автомат $A=\langle \Sigma,Q,\{s\},\Delta,F\rangle$ е еднозначен,
+ако $\Delta\subseteq Q\times \Sigma\times Q$ и за всяка дума $w\in L(A)$ има точно един успешен път с етикет $w$ в $A$.
+\end{definition}
+
+\begin{lemma}
+  Ако $A_i=\langle \Sigma,Q_i,\{s_i\},\Delta_i,F_i\rangle$ за $i=1,2$ са еднозначни НДА, то следните са еквивалентни:
+  \begin{enumerate}
+  \item $\exists w\in L(A_1)\triangle L(A_2) (|w|\le |Q_1|+|Q_2|)$.
+  \item $L(A_1)\triangle L(A_2)\neq\emptyset$.
+  \end{enumerate} 
+\end{lemma}
+
+\begin{theorem}
+Проблемът ($\texttt{MIN(UFA}\rightarrow\texttt{UFA)}$):
+\begin{alltt}
+Вход: \(k\in\mathbb{N}, A=\langle\Sigma,Q,s,\delta,F\rangle\) - еднозначен НДА
+Въпрос: има ли еднозначен НДА с език \(L(A)\) и не повече от \(k\) състояния?
+\end{alltt}
+е $\texttt{NP}$-пълен.
+\end{theorem}
+
+\begin{theorem}[Ladner]
+  Ако $\texttt{P} \neq \texttt{NP}$, то съществува $\texttt{NP}$ проблем, който не е $\texttt{P}$ проблем и не е $\texttt{NP}$-пълен проблем.
+\end{theorem}
+
+\section{Машини на Тюринг с оракул}
+
+\begin{theorem}[Baker-Gill-Solovay]
+  Съществуват оракули $A$ и $B$, за които $\texttt{P}^A \neq \texttt{NP}^A$ и $\texttt{P}^B = \texttt{NP}^B$.
+\end{theorem}
+
+\begin{theorem}
+  Докажете, че 
+\end{theorem}
+
+
+
+\bibliographystyle{amsalpha}
+\bibliography{mesi}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
