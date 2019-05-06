@@ -23,10 +23,13 @@ citecolor=green, urlcolor=blue]{hyperref}
 
 \newenvironment{hint}{\noindent{\bf Упътване.}\hspace*{1em}}{\qed\par\vspace*{1em}}
 
-\let\oldmarginpar\marginpar
-\renewcommand\marginpar[1]{\leavevmode\oldmarginpar{\raggedright\scriptsize #1}}
-
 \usepackage{mysymbols}
+\reversemarginpar
+\usepackage{marginnote}
+
+% \let\oldmarginpar\marginpar
+% \renewcommand\marginpar[1]{\leavevmode\oldmarginpar{\raggedright\scriptsize #1}}
+
 
 
 % \author{Стефан Вътев\thanks{Draft compiled at \currenttime\ on \today}}
@@ -51,6 +54,12 @@ citecolor=green, urlcolor=blue]{hyperref}
 \item
   Сводимости между проблеми: сводимост на Карп $\leq_P$ и ефективна сводимост $\leq_m$.
 \end{itemize}
+
+\begin{theorem}
+  \marginnote{\scriptsize \cite[стр. 47]{papadimitriou}}
+  Ако $L$ се разрешава от недетерминистичната машина на Тюринг $\N$ за време $f(n)$, то
+  $L$ се разрешава от трилентова детерминистична машина на Тюринг $\M$ за време $\mathcal{O}(c^{f(n)})$, където $c$ зависи от $\N$.
+\end{theorem}
 
 \section{Двупосочни автомати или защо писането е важно}
 \begin{definition}
@@ -81,6 +90,7 @@ $\Ss$ е {\bf тривиално свойство}, ако $\Ss = \emptyset$ и�
 
 \begin{theorem}[Райс]
   \index{Райс}
+  \marginnote{\scriptsize \cite[стр. 62]{papadimitriou}}
   За всяко нетривиално свойство $\Ss$ на полуразрешимите езици, $\texttt{Ind}(\Ss)$ е неразрешимо.
 \end{theorem}
 
@@ -300,6 +310,7 @@ $V_i=\{v_i\}$ и изразите $u_i+V_i^*=\{u_i+dv_i \,|\, d\in \mathbb{N}\}$
 \end{problem}
 
 \begin{problem}
+  \marginnote{\scriptsize \cite[стр. 184]{papadimitriou}}
   Докажете, че $\texttt{2-SAT}$ проблемът е $\texttt{PTIME}$.
 \end{problem}
 
@@ -317,7 +328,7 @@ $\texttt{Vertex Cover}$ е проблемът да се определи дал�
 съществува покритие $C$ на върховете на $G$, за което $|C| = k$.
 
 \begin{theorem}
-  \marginpar{\cite{hopcroft} стр. 331}
+  \marginnote{\scriptsize \cite[стр. 331]{hopcroft}}
   $\texttt{Vertex Cover}$ проблемът е $\texttt{NP}$-пълен.
 \end{theorem}
 \begin{hint}
@@ -362,19 +373,16 @@ $\texttt{Vertex Cover}$ е проблемът да се определи дал�
 \end{theorem}
 
 \begin{theorem}[Ladner]
+  \marginnote{\scriptsize \cite[стр. 330]{papadimitriou}}
   Ако $\texttt{P} \neq \texttt{NP}$, то съществува $\texttt{NP}$ проблем, който не е $\texttt{P}$ проблем и не е $\texttt{NP}$-пълен проблем.
 \end{theorem}
 
 \section{Машини на Тюринг с оракул}
 
 \begin{theorem}[Baker-Gill-Solovay]
+  \marginnote{\scriptsize \cite[стр. 340]{papadimitriou}}
   Съществуват оракули $A$ и $B$, за които $\texttt{P}^A \neq \texttt{NP}^A$ и $\texttt{P}^B = \texttt{NP}^B$.
 \end{theorem}
-
-\begin{theorem}
-  Докажете, че 
-\end{theorem}
-
 
 
 \bibliographystyle{amsalpha}
