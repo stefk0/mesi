@@ -78,7 +78,7 @@ L_{2way}(M)=\{\alpha \in \Sigma^*\,|\,\exists f\in F( \langle \varepsilon,s,\#\a
 
 \section{Критерий за разрешимост}
 
-\marginpar{\cite{hopcroft}}
+\marginnote{\scriptsize \cite{hopcroft}}
 Нека $\Ss$ е множество от полуразрешими езици над фиксирана азбука $\Sigma$.
 Например, 
 \[\Ss = \{L \subseteq \Sigma^\star \mid L\text{ е регулярен език}\}.\]
@@ -97,7 +97,7 @@ $\Ss$ е {\bf тривиално свойство}, ако $\Ss = \emptyset$ и�
 
 \section{Критерий за полуразрешимост}
 
-\marginpar{\cite{hopcroft}}
+\marginnote{\scriptsize \cite{hopcroft}}
 \begin{lemma}
   Нека $\Ss$ е свойство на полуразрешимите езици.
   Ако съществува безкраен език $L_0 \in \Ss$, който няма крайно подмножество в $\Ss$,
@@ -115,8 +115,9 @@ $\Ss$ е {\bf тривиално свойство}, ако $\Ss = \emptyset$ и�
 \end{theorem}
 
 \section{Проблем на Пост за съответствието}
-\marginpar{\cite{hopcroft}}
+
 \begin{lemma}
+  \marginnote{\scriptsize \cite[стр. 193]{hopcroft}}
   Съществува алгоритъм, който свежда MPCP към PCP.
 \end{lemma}
 
@@ -158,7 +159,7 @@ $\Ss$ е {\bf тривиално свойство}, ако $\Ss = \emptyset$ и�
 \end{corollary}
 
 \begin{theorem}[Грейбах]
-  \marginpar{\cite{hopcroft}}
+  \marginnote{\scriptsize \cite[стр. 205]{hopcroft}}
   Нека $\mathcal{C}$ е клас от езици, за който съществува ефективно кодиране $\code{L}$ на езиците в $\mathcal{C}$ и който е:
   \begin{itemize}
   \item 
@@ -190,7 +191,7 @@ $\Ss$ е {\bf тривиално свойство}, ако $\Ss = \emptyset$ и�
 \end{enumerate}
 \end{theorem}
 \begin{definition}
-  \marginpar{На англ. Dyck. \cite{hopcroft} стр. 142}
+  \marginnote{\scriptsize На англ. Dyck. \cite[стр. 142]{hopcroft}}
   Език на Дик над езика $B_n=\{(_i,)_i\,|\, 1\le i\le n\}$ е множеството от всички
   думи, които представляват правилно разположени скоби.
 \end{definition}
@@ -243,11 +244,11 @@ $V_i=\{v_i\}$ и изразите $u_i+V_i^*=\{u_i+dv_i \,|\, d\in \mathbb{N}\}$
   $\texttt{NPSPACE} = \texttt{PSPACE}$.
 \end{corollary}
 
-\begin{problem}
-  Докажете, че езикът
+\begin{theorem}
+  Езикът
   \[L = \{ \code{\A_1} \sharp \code{\A_2} \mid \A_1,\A_2\text{ са НКА и }\L(\A_1) = \L(\A_2)\}\]
   е $\texttt{PSPACE}$-пълен.
-\end{problem}
+\end{theorem}
 
 \begin{theorem}
 Проблемът ($\texttt{INT}$):
@@ -278,12 +279,13 @@ $V_i=\{v_i\}$ и изразите $u_i+V_i^*=\{u_i+dv_i \,|\, d\in \mathbb{N}\}$
 
 \section{$\texttt{NP}$ проблеми}
 
-\begin{theorem}
-  Ако $L \in \texttt{NP}$, то $L \in \texttt{EXP}$.
-\end{theorem}
+% \begin{theorem}
+%   Ако $L \in \texttt{NP}$, то $L \in \texttt{EXP}$.
+% \end{theorem}
 
 \begin{theorem}
-  \marginpar{Дори не е полуразрешим}
+  \marginnote{\scriptsize \cite[стр. 262]{papadimitriou-lewis}}
+  % \marginnote{\scriptsize Дори не е полуразрешим}
   Домино проблемът е неразрешим.
 \end{theorem}
 \begin{hint}
@@ -293,28 +295,20 @@ $V_i=\{v_i\}$ и изразите $u_i+V_i^*=\{u_i+dv_i \,|\, d\in \mathbb{N}\}$
 \end{hint}
 
 \begin{theorem}
+  \marginnote{\scriptsize \cite[стр. 310]{papadimitriou-lewis}}
   Ограниченият домино проблем е $\texttt{NP}$-пълен
 \end{theorem}
 
 \begin{theorem}[Кук]
+  \marginnote{\scriptsize \cite[стр. 312]{papadimitriou-lewis}}
   $\texttt{SAT}$ проблемът е $\texttt{NP}$-пълен.
 \end{theorem}
 \begin{hint}
   Ограниченият домино проблем се свежда полиномиално към $\texttt{SAT}$.
 \end{hint}
 
-\begin{problem}
-  Докажете директно, че $\texttt{SAT}$ е $\texttt{NP}$-труден проблем
-  като кодирате историята на едно изчисление на недетерминистична машина на Тюринг
-  с формула в конюнктивна нормална форма.
-\end{problem}
-
-\begin{problem}
-  \marginnote{\scriptsize \cite[стр. 184]{papadimitriou}}
-  Докажете, че $\texttt{2-SAT}$ проблемът е $\texttt{PTIME}$.
-\end{problem}
-
 \begin{theorem}
+  \marginnote{\scriptsize \cite[стр. 313]{papadimitriou-lewis}}
   $\texttt{3-SAT}$ проблемът е $\texttt{NP}$-пълен.
 \end{theorem}
 \begin{hint}
@@ -334,18 +328,6 @@ $\texttt{Vertex Cover}$ е проблемът да се определи дал�
 \begin{hint}
   $\texttt{3-SAT}$ се свежда полиномиално към $\texttt{Vertex Cover}$.
 \end{hint}
-
-\begin{problem}
-  Докажете, че $\texttt{Exact Cover}$ е $\texttt{NP}$-пълен проблем.
-\end{problem}
-
-\begin{problem}
-  Докажете, че $\texttt{Hamilton Cycle}$ е $\texttt{NP}$-пълен проблем.
-\end{problem}
-\begin{hint}
-  $\texttt{3-SAT}$ се свежда полиномиално към $\texttt{Hamilton Cycle}$.
-\end{hint}
-
 
 
 \subsection*{$\texttt{NP}$-пълни проблеми в теория на езиците}
@@ -383,6 +365,34 @@ $\texttt{Vertex Cover}$ е проблемът да се определи дал�
   \marginnote{\scriptsize \cite[стр. 340]{papadimitriou}}
   Съществуват оракули $A$ и $B$, за които $\texttt{P}^A \neq \texttt{NP}^A$ и $\texttt{P}^B = \texttt{NP}^B$.
 \end{theorem}
+
+
+
+\section{Задачи}
+
+
+\begin{problem}
+  \marginnote{\scriptsize \cite[стр. 184]{papadimitriou}}
+  Докажете, че $\texttt{2-SAT}$ проблемът е $\texttt{PTIME}$.
+\end{problem}
+
+\begin{problem}
+  Докажете директно, че $\texttt{SAT}$ е $\texttt{NP}$-труден проблем
+  като кодирате историята на едно изчисление на недетерминистична машина на Тюринг
+  с формула в конюнктивна нормална форма.
+\end{problem}
+
+\begin{problem}
+  Докажете, че $\texttt{Exact Cover}$ е $\texttt{NP}$-пълен проблем.
+\end{problem}
+
+\begin{problem}
+  Докажете, че $\texttt{Hamilton Cycle}$ е $\texttt{NP}$-пълен проблем.
+\end{problem}
+\begin{hint}
+  $\texttt{3-SAT}$ се свежда полиномиално към $\texttt{Hamilton Cycle}$.
+\end{hint}
+
 
 
 \bibliographystyle{amsalpha}
