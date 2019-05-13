@@ -253,17 +253,17 @@ $V_i=\{v_i\}$ и изразите $u_i+V_i^*=\{u_i+dv_i \,|\, d\in \mathbb{N}\}$
 \begin{theorem}
 Проблемът ($\texttt{INT}$):
 \begin{alltt}
-Вход: \(n\in\mathbb{N}, A\sb{i}=\langle\Sigma,Q\sb{i},s\sb{i},\delta\sb{i},F\sb{i}\rangle\) - КДА
+Вход: \(n\in\mathbb{N}, A\sb{i}=\langle\Sigma,Q\sb{i},s\sb{i},\delta\sb{i},F\sb{i}\rangle\) - ДKА
 Въпрос: \(\bigcap\sb{i}\sp{n}L(A\sb{i})=\Sigma\sp{*}\)?
 \end{alltt}
 е $\texttt{PSPACE}$-пълен.
 \end{theorem}
 
 \begin{theorem}
-Проблемът ($\texttt{MIN(NFA}\rightarrow\texttt{NDA)}$):
+Проблемът ($\texttt{MIN(NFA}\rightarrow\texttt{NFA)}$):
 \begin{alltt}
-Вход: \(k\in\mathbb{N}, A=\langle\Sigma,Q,s,\delta,F\rangle\) - КДА
-Въпрос: има ли НДА с език \(L(A)\) и не повече от \(k\) състояния?
+Вход: \(k\in\mathbb{N}, A=\langle\Sigma,Q,s,\delta,F\rangle\) - НКА
+Въпрос: има ли НКА с език \(L(A)\) и не повече от \(k\) състояния?
 \end{alltt}
 е $\texttt{PSPACE}$-пълен.
 \end{theorem}
@@ -338,7 +338,7 @@ $\texttt{Vertex Cover}$ е проблемът да се определи дал�
 \end{definition}
 
 \begin{lemma}
-  Ако $A_i=\langle \Sigma,Q_i,\{s_i\},\Delta_i,F_i\rangle$ за $i=1,2$ са еднозначни НДА, то следните са еквивалентни:
+  Ако $A_i=\langle \Sigma,Q_i,\{s_i\},\Delta_i,F_i\rangle$ за $i=1,2$ са еднозначни НКА, то следните са еквивалентни:
   \begin{enumerate}
   \item $\exists w\in L(A_1)\triangle L(A_2) (|w|\le |Q_1|+|Q_2|)$.
   \item $L(A_1)\triangle L(A_2)\neq\emptyset$.
@@ -348,8 +348,8 @@ $\texttt{Vertex Cover}$ е проблемът да се определи дал�
 \begin{theorem}
 Проблемът ($\texttt{MIN(UFA}\rightarrow\texttt{UFA)}$):
 \begin{alltt}
-Вход: \(k\in\mathbb{N}, A=\langle\Sigma,Q,s,\delta,F\rangle\) - еднозначен НДА
-Въпрос: има ли еднозначен НДА с език \(L(A)\) и не повече от \(k\) състояния?
+Вход: \(k\in\mathbb{N}, A=\langle\Sigma,Q,s,\delta,F\rangle\) - еднозначен НКА
+Въпрос: има ли еднозначен НКА с език \(L(A)\) и не повече от \(k\) състояния?
 \end{alltt}
 е $\texttt{NP}$-пълен.
 \end{theorem}
@@ -394,6 +394,74 @@ $\texttt{Vertex Cover}$ е проблемът да се определи дал�
 \end{hint}
 
 
+
+\begin{problem}
+\emph{Двупосочен автомат} наричаме машина на Тюринг $M=\langle \Sigma,\Gamma,Q,s,\Delta,F,B\rangle$, за която:
+\begin{itemize}
+\item $\Gamma=\Sigma\cup \{B,\#,\$\}$, като $B,\#,\$\not\in \Sigma$,
+\item За всеки прехода $\langle (p,a),(q,b,--)\rangle\in \Delta$ е в сила, че $a=b\neq B$.
+\end{itemize}
+\emph{Език} на двупосочен автомат $M$ наричаме:
+\begin{equation*}
+{\cal L}(M)=\{\alpha\in \Sigma^*\,|\,\exists f\in F\exists \gamma\in \Gamma^*( (\varepsilon,s,\#\alpha\$\rangle)\Rightarrow^*_M (\gamma,f,\varepsilon))\}.
+\end{equation*}
+\begin{enumerate}
+\item Да се докаже, че за всеки двупосочен автомат $M_1$ има двупосочен автомат $M_2$ над същата азбука, за който:
+\begin{equation*}
+{\cal L}(M_2) = \{\alpha\in \Sigma^* \,|\, \exists f\in F\exists \beta,\gamma\in \Gamma^*((\varepsilon,s,\#\alpha\$\rangle)\Rightarrow^*_M (\beta,f,\gamma))\}.
+\end{equation*}
+\item Да се опише конструкция, която по даден двупосочен автомат $M$ построява краен автомат $A$ с азбука $\Sigma$, за който:
+\begin{equation*}
+{\cal L}(M)={\cal L}(A).
+\end{equation*}
+\item Докажете, че описаната от Вас конструкция е коректна. 
+\item Оценете броя на състоянията на построения от Вас автомат като функция на броя
+на състоянията на изходния двупосочен автомат.
+\end{enumerate}
+\end{problem}
+\begin{problem}
+Дадена е азбука $\Sigma=\{a_1,a_2,\dots,a_n\}$ с $n\ge 2$ символа. За дума $w\in \Sigma^*$ с $|w|_i$ означаваме броя букви $a_i$ в $w$,
+а с $\|w\|\in \mathbb{N}^n$ -- вектора $(|w|_1,|w|_2,\dots,|w|_n)$. За език $L\subseteq \Sigma^*$, ${\cal I}(L)=\{\|w\| \,|\, w\in L\}$.
+\begin{enumerate}
+\item Нека $u\in \mathbb{N}^n$ и $V\subseteq \mathbb{N}^n$ е множество с $m$ елемента $v_1,v_2,\dots,v_m$. Да се докаже, че има регулярен език $L(u,V)$, за който:
+\begin{equation*}
+{\cal I}(L(u,V)) = \{u +\sum_{i=1}^m d_i v_i\,|\, d_1,d_2,\dots,d_m\in \mathbb{N}\}.
+\end{equation*}
+\item Нека $A=\langle \Sigma,Q,S,\Delta,F\rangle$ е краен автомат. Опишете конструкция, която по $A$ намира естествено число $N$, вектори $u_1,u_2,\dots,u_N\in \mathbb{N}^n$ и крайни множества $V_1,V_2,\dots,V_N\subseteq \mathbb{N}^n$, за които:
+\begin{equation*}
+{\cal I}({\cal L}(A)) = \bigcup_{i=1}^N {\cal I}(L(u_i,V_i)).
+\end{equation*} 
+\item Докажете, че конструкцията Ви е коректна.
+\end{enumerate}
+\end{problem}
+\begin{problem}
+Разглеждаме следния проблем:
+\begin{alltt}
+Вход:\(M\) еднолентова машина на Тюринг.
+Изход:\(k\in\mathbb{N}\) и \(M\sb{D}\) -- \(k\)-лентова детерминирана машина на Тюринг, 
+\hspace{5cm}за която \(L(M\sb{D})=L(M)\).
+\end{alltt}
+\begin{enumerate}
+\item Опишете конструкция, която решава горния проблем и има следното свойство: има полином $p(n)$, че за всяка машина на Тюринг
+с пространствена сложност $Space_M(n) \in \mathcal{O}(s(n))$ е в сила, че $Space_{M_D}(n) \in \mathcal{O}(p(n)(s(n)+1))$.
+\item Докажете, че Вашата конструкция е коректна.
+\item Оценете степента на полинома $p(n)$.
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Нека $A=\langle \Sigma,Q,s,\delta,F\rangle$ е тотален краен детерминиран автомат. С $L(p)$ означаваме езика на автомата
+$A_p=\langle \Sigma,Q,p,\delta,F\rangle$. 
+\begin{enumerate}
+%\item Опишете $O(|\Sigma||Q|^2)$ процедура, която намира всички двойки $(p,q)\in Q\times Q$, за които $L(p)\subseteq L(q)$.
+\item Опишете  процедура с времева сложност $\mathcal{O}(|\Sigma||Q|^3)$, която намира всички двойки $(p,q)\in Q\times Q$, за които $L(p)\subseteq L(q)$.
+\item Докажете, че Вашата процедура е коректна.
+\item Докажете, че $L(p)\subseteq L(q)$ точно когато:
+\begin{equation*}
+\forall \alpha\in \Sigma^*((|\alpha|\le 2|Q|\, \&\, \alpha\in L(p) )\Rightarrow \alpha\in L(q)).
+\end{equation*}
+\end{enumerate}
+\end{problem}
 
 \bibliographystyle{amsalpha}
 \bibliography{mesi}
