@@ -58,22 +58,24 @@ citecolor=green, urlcolor=blue]{hyperref}
 \begin{theorem}
   \marginnote{\scriptsize \cite[стр. 47]{papadimitriou}}
   Ако $L$ се разрешава от недетерминистичната машина на Тюринг $\N$ за време $f(n)$, то
-  $L$ се разрешава от трилентова детерминистична машина на Тюринг $\M$ за време $\mathcal{O}(c^{f(n)})$, където $c$ зависи от $\N$.
+  $L$ се разрешава от трилентова детерминистична машина на Тюринг $\M$ за време $\mathcal{O}(c^{f(n)})$, където константата $c$ зависи от $\N$.
 \end{theorem}
 
 \section{Двупосочни автомати или защо писането е важно}
 \begin{definition}
-Двапосочен автомат е машина на Тюринг $M=\langle \Sigma,\Gamma,Q,s,\Delta,F,B\rangle$, за която
-$\$,\#\in \Gamma\setminus\Sigma$ и  всеки преход е от вида $t=\langle (p,a),(q,a,d)\rangle$, тоест буквите на лентата не се променят.
+  Двапосочен автомат е машина на Тюринг
+  \[\mathcal{M}=\langle \Sigma,\Gamma,Q,s,\Delta,F,B\rangle,\]
+  за която
+  $\$,\#\in \Gamma\setminus\Sigma$ и  всеки преход е от вида $t=\langle (p,a),(q,a,d)\rangle$, тоест буквите на лентата не се променят.
 \end{definition}
 \begin{definition}
-Език на двупосочен автомат $M$ е:
-\begin{equation*}
-L_{2way}(M)=\{\alpha \in \Sigma^*\,|\,\exists f\in F( \langle \varepsilon,s,\#\alpha\$\rangle \Rightarrow_M^* \langle \#\alpha\$,f,\varepsilon\rangle\}.
-\end{equation*}
+  Език на двупосочен автомат $\mathcal{M}$ е:
+  \begin{equation*}
+    L_{2way}(\mathcal{M})=\{\alpha \in \Sigma^*\,|\,\exists f\in F( \langle \varepsilon,s,\#\alpha\$\rangle \Rightarrow_M^* \langle \#\alpha\$,f,\varepsilon\rangle\}.
+  \end{equation*}
 \end{definition}
 \begin{theorem}
-Класът от езиците, разпознавани от двупосочни автомати е точно класът от регулярни езици.
+  Класът от езиците, разпознавани от двупосочни автомати е точно класът от регулярни езици.
 \end{theorem}
 
 \section{Критерий за разрешимост}
@@ -183,15 +185,17 @@ $\Ss$ е {\bf тривиално свойство}, ако $\Ss = \emptyset$ и�
 
 \section{Контекстносвободни езици}
 \begin{theorem}
+  \marginnote{\scriptsize \cite[стр. 131]{hopcroft}}
 Класът на контекстносвободните езици е затворен относно:
 \begin{enumerate}
+\item обединение, конкатенация, звезда на Клини.
 \item сечение с регулярни езици.
 \item образи на хомоморфизми.
 \item образи на регулярни релации.
 \end{enumerate}
 \end{theorem}
 \begin{definition}
-  \marginnote{\scriptsize На англ. Dyck. \cite[стр. 142]{hopcroft}}
+  \marginnote{\scriptsize На англ. Dyck. Теоремата е формулирана като задача в \cite[стр. 142]{hopcroft}.}
   Език на Дик над езика $B_n=\{(_i,)_i\,|\, 1\le i\le n\}$ е множеството от всички
   думи, които представляват правилно разположени скоби.
 \end{definition}
@@ -366,6 +370,141 @@ $\texttt{Vertex Cover}$ е проблемът да се определи дал�
   Съществуват оракули $A$ и $B$, за които $\texttt{P}^A \neq \texttt{NP}^A$ и $\texttt{P}^B = \texttt{NP}^B$.
 \end{theorem}
 
+\section{Детерминирани стекови автомати и $LR(k)$-граматики}
+\begin{definition}
+Стеков автомат $A=\langle \Sigma,\Gamma,Q,s,\Delta,Z,F\rangle$ е детерминиран, ако са в сила следните:
+\begin{enumerate}
+\item $\Delta\subseteq (Q\times(\Sigma\cup \{\varepsilon\})\times \Gamma)\times (Q\times \Gamma^*)$ е графика
+на функция 
+\begin{equation*}
+\delta:Q\times(\Sigma\cup\{\varepsilon\})\times \Gamma\rightarrow Q\times \Gamma^*
+\end{equation*}
+\item и за всяко състояние $p\in Q$ и стеков символ $X\in \Gamma$:
+\begin{equation*}
+! \delta(p,\varepsilon,X) \Rightarrow \neg \exists a\in \Sigma( ! \delta(p,a,X)).
+\end{equation*}
+\end{enumerate}
+В този случай ще пишем $A=\langle \Sigma,\Gamma,Q,s,\delta,Z,F\rangle$.
+\end{definition}
+\begin{definition}
+За стеков автомат $A=\langle \Sigma,\Gamma,Q,s,\Delta,Z,F\rangle$ и преход $t=\langle (p,a,X),(q,\beta)\rangle\in \Delta$
+казваме, че:
+\begin{enumerate}
+\item $t$ е \emph{pop} преход, ако $\beta=\varepsilon$,
+\item $t$ е \emph{peek} преход, ако $\beta=X$,
+\item $t$ е \emph{push} преход, ако $\beta=YX$ за някое $Y\in \Gamma$.
+\end{enumerate}
+$A$ е в нормална форма, ако всеки преход на $A$ е pop, peek или push.  
+\end{definition}
+\begin{theorem}
+За всеки (детерминиран) стеков автомат $A$ ефективно може да получим еквивалентен 
+(детерминиран) стеков автомат $A'$ в нормална форма.
+\end{theorem}
+\begin{definition}
+За детерминиран стеков автомат $A=\langle \Sigma,\Gamma,Q,s,\delta,Z,F\rangle$ казваме, че $A$ зацикля върху вход $w\in \Sigma^*$, ако
+за всяко $n$ има изпълнение:
+\begin{equation*}
+(s,w,Z)\Rightarrow^{(n)}_A (p_n,w_n,\gamma_n).
+\end{equation*}
+Казваме, че $A$ е ацикличен, ако $A$ не зацикля върху никой свой вход.
+\end{definition}
+\begin{theorem}
+Проблемът дали детерминиран стеков автомат $A=\langle \Sigma,\Gamma,Q,s,\delta,Z,F\rangle$ е ацикличен
+е разрешим за полиномиално време.
+\end{theorem}
+\begin{theorem}
+За всеки детерминиран стеков автомат $A=\langle \Sigma,\Gamma,Q,s,\delta,Z,F\rangle$ ефективно може да получим еквивалентен ацикличен детерминиран
+стеков автомат $A'$.
+\end{theorem}
+\begin{theorem}
+За всеки ацикличен детерминиран стеков автомат $A=\langle \Sigma,\Gamma,Q,s,\delta,Z,F\rangle$, съществува константа $c=c(A)$, за която за всяка дума
+$w\in \Sigma^*$ и всяко изпълнение:
+\begin{equation*}
+(s,w,Z) \Rightarrow_A^{(n)} (p_n,w_n,\gamma_n) 
+\end{equation*}
+е в сила, че $n\le c(|w|+1)$.
+\end{theorem}
+\begin{theorem}
+За всеки детерминиран стеков автомат $A=\langle \Sigma,\Gamma,Q,s,\delta,Z,F\rangle$ ефективно може да намерим детерминиран стеков автомат $\overline{A}$ с език
+$L(\overline{A})=\Sigma^*\setminus L(A)$. 
+\end{theorem}
+\begin{theorem}
+За всеки детерминиран стеков автомат $A_S=\langle \Sigma,\Gamma,Q_S,s_S,\delta_S,Z,F_S\rangle$ и детерминиран краен автомат $A_D=\langle \Sigma,Q_D,s_D,\delta_D,F_D\rangle$ ефективно може да намерим:
+\begin{enumerate} 
+\item детерминиран стеков автомат $A$ с език:
+\begin{equation*}
+L(A) = L(A_S) \cap L(A_D)
+\end{equation*}
+\item детерминиран стеков автомат $A$ с език: 
+\begin{equation*}
+L(A) = \{\alpha \,|\, \exists \beta\in L(A_D) (\alpha\circ \beta\in L(A_S))\}.
+\end{equation*}
+\end{enumerate}
+\end{theorem}
+\begin{corollary}
+Нека $\Sigma$ е азбука и $\$$ е символ извън $\Sigma$. Език $L\subseteq \Sigma^*$ се разпознава от детерминиран стеков автомат (с финални състояния) точно когато
+$L\$$ се разпознава от детерминиран стеков автомат с празен стек.
+\end{corollary}
+
+\begin{definition}
+За естествено число $k\in \mathbb{N}$ дефинираме $first_k:\Sigma^*\rightarrow \Sigma^{\le k}$ като:
+\begin{equation*}
+first_k(w) =\begin{cases} w\text{ ако } |w|\le k\\
+u, \text{ за което } |u|=k \text{ и } w\in u\Sigma^*.
+\end{cases}
+\end{equation*}
+\end{definition}
+\begin{definition}
+За контекстносвободна граматика $G=\langle \Sigma,{\cal N},S,R\rangle$ десен елемнтарен извод е:
+\begin{equation*}
+\alpha A w\Rightarrow_{rm} \alpha \beta w,
+\end{equation*}
+ където $w\in \Sigma^*$ и $A\rightarrow \beta\in R$. (Най-)Десен извод в $G$ е:
+ \begin{equation*}
+ \alpha_0\Rightarrow_{rm}\alpha_1\dots \Rightarrow_{rm} \alpha_n
+ \end{equation*}
+ за някое $n\ge 0$.  Стандартно използваме $\alpha_0\Rightarrow_{rm}^{(n)} \alpha_n$, за да подчертаем
+ дължината на извода и $\alpha_0\Rightarrow_{rm}^{*} \alpha_n$, когато тя не ни интересува.
+\end{definition}
+\begin{definition}
+За естествено число $k\in \mathbb{N}$ и контекстносвобдна граматика $G=\langle \Sigma,{\cal N},S,R\rangle$ казваме,
+че $G$ е $LR(k)$ граматика, ако винаги, когато са изпълнени следните три условия:
+\begin{enumerate}
+\item $S\Rightarrow^*_{rm} \alpha A w\Rightarrow_{rm} \alpha \beta w$,
+\item $S\Rightarrow^*_{rm} \alpha' A' w'\Rightarrow_{rm} \alpha' \beta' w'=\alpha\beta x$,
+\item $first_k(w)=first_k(x)$,
+\end{enumerate}
+е в сила, че $\alpha A x= \alpha' A' w'$, в частност $\alpha=\alpha'$, $\beta=\beta'$ и $x=w'$.
+\end{definition}
+\begin{theorem}
+За всеки детерминиран стеков автомат $A$, който разпознава с празен стек, има $LR(0)$-граматика $G$, за която
+$L(A)=L(G)$. 
+\end{theorem}
+\begin{theorem}
+Ако $\$$ е символ извън $\Sigma$ и $G=\langle \Sigma\cup \{\$\},{\cal N},S,R\rangle$ е $LR(0)$-граматика с език $L(G) \subseteq \Sigma^* \{\$\}$,
+то има $LR(1)$-граматика $G_1$ с език $L(G_1)=L(G)\{\$\}^{-1}$. 
+\end{theorem}
+\begin{corollary}
+Ако $A$ е детерминиран стеков автомат, то има $LR(1)$-граматика $G$ с език $L(A)=L(G)$. (тук автоматът разпознава с финални състояния!)
+\end{corollary}
+
+\begin{theorem}
+За всяко $k\in \mathbb{N}$ проблемът дали $G=\langle \Sigma,{\cal N},S,R\rangle$ е $LR(k)$-граматика е разрешим. 
+\end{theorem}
+
+\begin{theorem}
+За всяко $k\in \mathbb{N}$ и всяка $LR(k)$-граматика $G$ има детерминиран стеков автомат $A$ с език $L(A)=L(G)$.
+\end{theorem}
+
+\begin{theorem}
+Проблемът:
+\begin{alltt}
+Вход: \(G=\langle \Sigma,{\cal{N}},S,R\rangle\)
+Изход: да, ако има \(k\), за което \(G\) е \(LR(k)\)
+	       не, иначе.
+\end{alltt}
+е неразрешим.
+\end{theorem}
 
 
 \section{Задачи}
@@ -383,20 +522,35 @@ $\texttt{Vertex Cover}$ е проблемът да се определи дал�
 \end{problem}
 
 \begin{problem}
+  % \marginnote{\cite[стр. 367]{hopcroft}}
+  \marginnote{\scriptsize \cite[стр. 53]{garey-johnson}}
+  $\texttt{Exact Cover}$ се нарича проблемът дали при дадено множество $S$ и негови подмножества $S_1,S_2,\dots,S_k$,
+  съществува $T \subseteq \{1,2,\dots,k\}$, такова че 
+  за всяко $x \in S$ има точно един индекс $i \in T$, за който $x \in S_i$.  
   Докажете, че $\texttt{Exact Cover}$ е $\texttt{NP}$-пълен проблем.
 \end{problem}
 
 \begin{problem}
+  \marginnote{\scriptsize \cite[стр. 333]{hopcroft}}
   Докажете, че $\texttt{Hamilton Cycle}$ е $\texttt{NP}$-пълен проблем.
 \end{problem}
 \begin{hint}
   $\texttt{3-SAT}$ се свежда полиномиално към $\texttt{Hamilton Cycle}$.
 \end{hint}
 
+\begin{problem}
+  \marginnote{\scriptsize \cite[стр. 60]{garey-johnson}}
+  Нека имаме крайно множество $A$ и функция $s:A \to \mathbb{N}^+$.
+  Проблемът за съществуването на $A' \subseteq A$ със свойството, че
+  \[\sum_{a\in A'}s(a) = \sum_{a \in A\setminus A'} s(a)\]
+  се нарича $\texttt{PARTITION}$.
+  Докажете, че $\texttt{PARTITION}$ е $NP$-пълен проблем.
+\end{problem}
 
 
 \begin{problem}
-\emph{Двупосочен автомат} наричаме машина на Тюринг $M=\langle \Sigma,\Gamma,Q,s,\Delta,F,B\rangle$, за която:
+  \emph{Двупосочен автомат} наричаме машина на Тюринг
+  \[\mathcal{M}=\langle \Sigma,\Gamma,Q,s,\Delta,F,B\rangle,\] за която:
 \begin{itemize}
 \item $\Gamma=\Sigma\cup \{B,\#,\$\}$, като $B,\#,\$\not\in \Sigma$,
 \item За всеки прехода $\langle (p,a),(q,b,--)\rangle\in \Delta$ е в сила, че $a=b\neq B$.
